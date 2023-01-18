@@ -1,10 +1,10 @@
-import { Processor, Process } from '@nestjs/bull';
+import { Process, Processor } from '@nestjs/bull';
 
-@Processor()
+@Processor('UPDATE_USERS')
 export class UserUpdateProcessor {
 
     @Process()
     async updateUsers() {
-        // Do some stuff here
+        // Do some update stuff here
     }
 }

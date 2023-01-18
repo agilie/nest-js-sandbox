@@ -1,14 +1,21 @@
-import { InjectQueue } from '@nestjs/bull';
+import { BullModule, InjectQueue } from '@nestjs/bull';
 import { Module, OnModuleInit } from '@nestjs/common';
 import { Queue } from 'bull';
 import { UsersController } from './controllers/users.controller';
 import { TestController } from './controllers/test.controller';
 import { UserUpdateProcessor } from './services/user-update.processor';
+import { TestTwoController } from './controllers/test-two-controller';
 
 @Module({
+    imports: [
+        BullModule.registerQueueAsync({
+            name: 'UPDATE_USERS',
+        }),
+    ],
     controllers: [
         UsersController,
-        TestController
+        TestController,
+        TestTwoController
     ],
     providers: [
         UserUpdateProcessor
@@ -17,7 +24,7 @@ import { UserUpdateProcessor } from './services/user-update.processor';
 export class UsersModule implements OnModuleInit {
 
     constructor(
-        @InjectQueue('Update users') private userUpdateQueue: Queue
+        @InjectQueue('UPDATE_USERS') private userUpdateQueue: Queue
     ) {
     }
 
